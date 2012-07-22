@@ -1,24 +1,10 @@
--- phpMyAdmin SQL Dump
--- version 3.4.10.1deb1
--- http://www.phpmyadmin.net
 --
--- Servidor: localhost
--- Tempo de Geração: 02/07/2012 às 12h39min
--- Versão do Servidor: 5.5.24
--- Versão do PHP: 5.3.10-1ubuntu3.2
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
+-- Banco de Dados: `aotec`
 --
--- Banco de Dados: `teste`
---
+
+CREATE DATABASE IF NOT EXISTS aotec;
+
+USE aotec;
 
 -- --------------------------------------------------------
 
@@ -27,15 +13,15 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `aluno` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `cpf` varchar(11) NOT NULL,
   `dataNascimento` date NOT NULL,
-  `idPessoa` int(11) NOT NULL,
   `idResponsavel` int(11) DEFAULT NULL,
   `idTurma` int(11) NOT NULL,
-  PRIMARY KEY (`cpf`),
-  KEY `idPessoa` (`idPessoa`),
-  KEY `idResponsavel` (`idResponsavel`),
-  KEY `idTurma` (`idTurma`)
+  PRIMARY KEY (`id`),
+  --KEY `idPessoa` (`idPessoa`),
+  --KEY `idResponsavel` (`idResponsavel`),
+  --KEY `idTurma` (`idTurma`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -43,14 +29,16 @@ CREATE TABLE IF NOT EXISTS `aluno` (
 --
 -- Estrutura da tabela `atividade`
 --
-
+/*
+ *TODO: criar a tabela Turno
+ *TODO: Criar um campo estrangeiro idTurno 
+ */
 CREATE TABLE IF NOT EXISTS `atividade` (
-  `idatv` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `descricao` varchar(30) NOT NULL,
   `turno` varchar(30) NOT NULL,
   `idProfessor` int(11) NOT NULL,
-  PRIMARY KEY (`idatv`),
-  KEY `idProfessor` (`idProfessor`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -60,13 +48,11 @@ CREATE TABLE IF NOT EXISTS `atividade` (
 --
 
 CREATE TABLE IF NOT EXISTS `candidato` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `cpf` varchar(11) NOT NULL,
   `dataNascimento` date NOT NULL,
-  `idPessoa` int(11) NOT NULL,
   `idResponsavel` int(11) DEFAULT NULL,
-  PRIMARY KEY (`cpf`),
-  KEY `idPessoa` (`idPessoa`),
-  KEY `idResponsavel` (`idResponsavel`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -74,38 +60,41 @@ CREATE TABLE IF NOT EXISTS `candidato` (
 --
 -- Estrutura da tabela `candidatoAlocadoLista`
 --
-
+/*
 CREATE TABLE IF NOT EXISTS `candidatoAlocadoLista` (
   `cpfCandidato` varchar(11) NOT NULL,
   `idLista` int(11) NOT NULL,
   PRIMARY KEY (`cpfCandidato`,`idLista`),
   KEY `idLista` (`idLista`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+*/
 
 -- --------------------------------------------------------
 
 --
 -- Estrutura da tabela `candidatoViraAluno`
 --
-
+/*
 CREATE TABLE IF NOT EXISTS `candidatoViraAluno` (
   `cpfCandidato` varchar(11) NOT NULL,
   `cpfAluno` varchar(11) NOT NULL,
   PRIMARY KEY (`cpfCandidato`,`cpfAluno`),
   KEY `cpfAluno` (`cpfAluno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+*/
 -- --------------------------------------------------------
 
 --
 -- Estrutura da tabela `cestabasica`
 --
-
+/* A Cesta Básica é umam composição de 
+ * vários alimentos, logo deve ser uma união com os alimentos
+ * */
 CREATE TABLE IF NOT EXISTS `cestabasica` (
-  `idces` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `dataEntrega` date NOT NULL,
   `qtd` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idces`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -115,12 +104,11 @@ CREATE TABLE IF NOT EXISTS `cestabasica` (
 --
 
 CREATE TABLE IF NOT EXISTS `contrato` (
-  `idc` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `qtdCota` int(2) NOT NULL,
   `valorCota` decimal(9,2) NOT NULL,
   `idPatrocinador` int(11) NOT NULL,
-  PRIMARY KEY (`idc`),
-  KEY `idPatrocinador` (`idPatrocinador`)
+  PRIMARY KEY (`id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -130,12 +118,12 @@ CREATE TABLE IF NOT EXISTS `contrato` (
 --
 
 CREATE TABLE IF NOT EXISTS `curriculo` (
-  `cpf` varchar(11) NOT NULL,
+  `id` varchar(11) NOT NULL,
   `profissao` varchar(30) NOT NULL,
   `dataNascimento` date DEFAULT NULL,
   `miniCurriculo` blob,
   `idPessoa` int(11) NOT NULL,
-  PRIMARY KEY (`cpf`),
+  PRIMARY KEY (`id`),
   KEY `idPessoa` (`idPessoa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -146,11 +134,10 @@ CREATE TABLE IF NOT EXISTS `curriculo` (
 --
 
 CREATE TABLE IF NOT EXISTS `curso` (
-  `idcur` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `descricao` varchar(30) NOT NULL,
   `idrequisito` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idcur`),
-  KEY `idrequisito` (`idrequisito`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -160,13 +147,11 @@ CREATE TABLE IF NOT EXISTS `curso` (
 --
 
 CREATE TABLE IF NOT EXISTS `disciplina` (
-  `iddis` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `descricao` varchar(30) NOT NULL,
   `idcurso` int(11) NOT NULL,
   `idrequisito` int(11) DEFAULT NULL,
-  PRIMARY KEY (`iddis`),
-  KEY `idcurso` (`idcurso`),
-  KEY `idrequisito` (`idrequisito`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -176,12 +161,11 @@ CREATE TABLE IF NOT EXISTS `disciplina` (
 --
 
 CREATE TABLE IF NOT EXISTS `doacaoalimento` (
-  `iddoa` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `descricao` varchar(30) NOT NULL,
   `qtd` int(11) NOT NULL,
   `idMatricula` int(11) NOT NULL,
-  PRIMARY KEY (`iddoa`),
-  KEY `idMatricula` (`idMatricula`)
+  PRIMARY KEY (`iddoa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -189,14 +173,17 @@ CREATE TABLE IF NOT EXISTS `doacaoalimento` (
 --
 -- Estrutura da tabela `doacaoViraCesta`
 --
-
+/*
+ * Ação não vira Entidade
+ */
+/*
 CREATE TABLE IF NOT EXISTS `doacaoViraCesta` (
   `iddoacao` int(11) NOT NULL,
   `idcesta` int(11) NOT NULL,
   PRIMARY KEY (`iddoacao`,`idcesta`),
   KEY `idcesta` (`idcesta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+*/
 -- --------------------------------------------------------
 
 --
@@ -204,14 +191,14 @@ CREATE TABLE IF NOT EXISTS `doacaoViraCesta` (
 --
 
 CREATE TABLE IF NOT EXISTS `funcionario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `cpf` varchar(11) NOT NULL,
   `cargo` varchar(30) NOT NULL,
   `profissao` varchar(30) DEFAULT NULL,
   `dataAdmissao` varchar(10) DEFAULT NULL,
   `salario` decimal(9,2) DEFAULT NULL,
-  `idPessoa` int(11) NOT NULL,
-  PRIMARY KEY (`cpf`),
-  KEY `idPessoa` (`idPessoa`)
+  --`idPessoa` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -221,11 +208,10 @@ CREATE TABLE IF NOT EXISTS `funcionario` (
 --
 
 CREATE TABLE IF NOT EXISTS `listaespera` (
-  `idlist` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `prazo` date NOT NULL,
   `idTurma` int(11) NOT NULL,
-  PRIMARY KEY (`idlist`),
-  KEY `idTurma` (`idTurma`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -235,13 +221,12 @@ CREATE TABLE IF NOT EXISTS `listaespera` (
 --
 
 CREATE TABLE IF NOT EXISTS `login` (
-  `codigo` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `usuario` varchar(20) NOT NULL,
   `senha` varchar(20) NOT NULL,
   `nivelacesso` int(2) NOT NULL,
   `idPessoa` int(11) NOT NULL,
-  PRIMARY KEY (`codigo`),
-  KEY `idPessoa` (`idPessoa`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -251,14 +236,13 @@ CREATE TABLE IF NOT EXISTS `login` (
 --
 
 CREATE TABLE IF NOT EXISTS `matricula` (
-  `idmat` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
+  cod_matricula INTEGER NOT NULL, --Criado
   `data` date NOT NULL,
   `status` varchar(20) NOT NULL,
   `cpfAluno` varchar(11) NOT NULL,
   `idTurma` int(11) NOT NULL,
-  PRIMARY KEY (`idmat`),
-  KEY `idTurma` (`idTurma`),
-  KEY `cpfAluno` (`cpfAluno`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -268,15 +252,13 @@ CREATE TABLE IF NOT EXISTS `matricula` (
 --
 
 CREATE TABLE IF NOT EXISTS `pagamento` (
-  `idpag` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `data` date NOT NULL,
   `status` varchar(20) NOT NULL,
   `valorPago` decimal(9,2) NOT NULL,
   `idContrato` int(11) NOT NULL,
   `idPatrocinador` int(11) NOT NULL,
-  PRIMARY KEY (`idpag`),
-  KEY `idContrato` (`idContrato`),
-  KEY `idPatrocinador` (`idPatrocinador`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -286,11 +268,10 @@ CREATE TABLE IF NOT EXISTS `pagamento` (
 --
 
 CREATE TABLE IF NOT EXISTS `patrocinador` (
-  `idPt` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `status` varchar(20) DEFAULT NULL,
   `idPessoa` int(11) NOT NULL,
-  PRIMARY KEY (`idPt`),
-  KEY `idPessoa` (`idPessoa`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -300,10 +281,10 @@ CREATE TABLE IF NOT EXISTS `patrocinador` (
 --
 
 CREATE TABLE IF NOT EXISTS `patrocinadorfisico` (
+  id INTEGER NOT NULL AUTO_INCREMENT,
   `cpf` varchar(11) NOT NULL,
   `idPatrocinador` int(11) NOT NULL,
-  PRIMARY KEY (`cpf`),
-  KEY `idPatrocinador` (`idPatrocinador`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -313,11 +294,11 @@ CREATE TABLE IF NOT EXISTS `patrocinadorfisico` (
 --
 
 CREATE TABLE IF NOT EXISTS `patrocinadorjuridico` (
+  id INTEGER NOT NULL AUTO_INCREMENT,
   `cnpj` varchar(14) NOT NULL,
   `razaoSocial` varchar(30) DEFAULT NULL,
   `idPatrocinador` int(11) NOT NULL,
-  PRIMARY KEY (`cnpj`),
-  KEY `idPatrocinador` (`idPatrocinador`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -327,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `patrocinadorjuridico` (
 --
 
 CREATE TABLE IF NOT EXISTS `pessoa` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(40) NOT NULL,
   `email` varchar(30) DEFAULT NULL,
   `telefone` varchar(11) DEFAULT NULL,
@@ -350,13 +331,12 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
 --
 
 CREATE TABLE IF NOT EXISTS `professor` (
+  id INTEGER NOT NULL AUTO_INCREMENT,
   `idprof` int(11) NOT NULL,
   `cargaHoraria` decimal(3,2) DEFAULT NULL,
   `idPessoa` int(11) NOT NULL,
   `cpfFuncionario` varchar(11) NOT NULL,
-  PRIMARY KEY (`idprof`),
-  KEY `idPessoa` (`idPessoa`),
-  KEY `cpfFuncionario` (`cpfFuncionario`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -366,10 +346,11 @@ CREATE TABLE IF NOT EXISTS `professor` (
 --
 
 CREATE TABLE IF NOT EXISTS `professorAlocadoCurso` (
+  id INTEGER NOT NULL AUTO_INCREMENT,
   `idprofessor` int(11) NOT NULL,
-  `idcurso` int(11) NOT NULL,
-  PRIMARY KEY (`idprofessor`,`idcurso`),
-  KEY `idcurso` (`idcurso`)
+  `idcurso` int(11) NOT NULL, 
+  --PRIMARY KEY (`idprofessor`,`idcurso`),
+  KEY `idcurso` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -379,10 +360,9 @@ CREATE TABLE IF NOT EXISTS `professorAlocadoCurso` (
 --
 
 CREATE TABLE IF NOT EXISTS `responsavel` (
-  `idresp` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idPessoa` int(11) NOT NULL,
-  PRIMARY KEY (`idresp`),
-  KEY `idPessoa` (`idPessoa`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -392,14 +372,13 @@ CREATE TABLE IF NOT EXISTS `responsavel` (
 --
 
 CREATE TABLE IF NOT EXISTS `turma` (
-  `idtur` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `dataInicio` date NOT NULL,
   `dataTermino` date NOT NULL,
   `horInicio` time NOT NULL,
   `horTermino` time NOT NULL,
   `idProfessor` int(11) NOT NULL,
-  PRIMARY KEY (`idtur`),
-  KEY `idProfessor` (`idProfessor`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -411,41 +390,41 @@ CREATE TABLE IF NOT EXISTS `turma` (
 --
 ALTER TABLE `aluno`
   ADD CONSTRAINT `aluno_ibfk_1` FOREIGN KEY (`idPessoa`) REFERENCES `pessoa` (`id`),
-  ADD CONSTRAINT `aluno_ibfk_2` FOREIGN KEY (`idResponsavel`) REFERENCES `responsavel` (`idresp`),
-  ADD CONSTRAINT `aluno_ibfk_3` FOREIGN KEY (`idTurma`) REFERENCES `turma` (`idtur`);
+  ADD CONSTRAINT `aluno_ibfk_2` FOREIGN KEY (`idResponsavel`) REFERENCES `responsavel` (`id`),
+  ADD CONSTRAINT `aluno_ibfk_3` FOREIGN KEY (`idTurma`) REFERENCES `turma` (`id`);
 
 --
 -- Restrições para a tabela `atividade`
 --
 ALTER TABLE `atividade`
-  ADD CONSTRAINT `atividade_ibfk_1` FOREIGN KEY (`idProfessor`) REFERENCES `professor` (`idprof`);
+  ADD CONSTRAINT `atividade_ibfk_1` FOREIGN KEY (`idProfessor`) REFERENCES `professor` (`id`);
 
 --
 -- Restrições para a tabela `candidato`
 --
 ALTER TABLE `candidato`
   ADD CONSTRAINT `candidato_ibfk_1` FOREIGN KEY (`idPessoa`) REFERENCES `pessoa` (`id`),
-  ADD CONSTRAINT `candidato_ibfk_2` FOREIGN KEY (`idResponsavel`) REFERENCES `responsavel` (`idresp`);
+  ADD CONSTRAINT `candidato_ibfk_2` FOREIGN KEY (`idResponsavel`) REFERENCES `responsavel` (`id`);
 
 --
 -- Restrições para a tabela `candidatoAlocadoLista`
 --
 ALTER TABLE `candidatoAlocadoLista`
-  ADD CONSTRAINT `candidatoAlocadoLista_ibfk_1` FOREIGN KEY (`cpfCandidato`) REFERENCES `candidato` (`cpf`),
-  ADD CONSTRAINT `candidatoAlocadoLista_ibfk_2` FOREIGN KEY (`idLista`) REFERENCES `listaespera` (`idlist`);
+  ADD CONSTRAINT `candidatoAlocadoLista_ibfk_1` FOREIGN KEY (`idCandidato`) REFERENCES `candidato` (`id`),
+  ADD CONSTRAINT `candidatoAlocadoLista_ibfk_2` FOREIGN KEY (`idLista`) REFERENCES `listaespera` (`id`);
 
 --
 -- Restrições para a tabela `candidatoViraAluno`
 --
 ALTER TABLE `candidatoViraAluno`
-  ADD CONSTRAINT `candidatoViraAluno_ibfk_1` FOREIGN KEY (`cpfCandidato`) REFERENCES `candidato` (`cpf`),
-  ADD CONSTRAINT `candidatoViraAluno_ibfk_2` FOREIGN KEY (`cpfAluno`) REFERENCES `aluno` (`cpf`);
+  ADD CONSTRAINT `candidatoViraAluno_ibfk_1` FOREIGN KEY (`idCandidato`) REFERENCES `candidato` (`id`),
+  ADD CONSTRAINT `candidatoViraAluno_ibfk_2` FOREIGN KEY (`idAluno`) REFERENCES `aluno` (`id`);
 
 --
 -- Restrições para a tabela `contrato`
 --
 ALTER TABLE `contrato`
-  ADD CONSTRAINT `contrato_ibfk_1` FOREIGN KEY (`idPatrocinador`) REFERENCES `patrocinador` (`idPt`);
+  ADD CONSTRAINT `contrato_ibfk_1` FOREIGN KEY (`idPatrocinador`) REFERENCES `patrocinador` (`id`);
 
 --
 -- Restrições para a tabela `curriculo`
@@ -457,7 +436,7 @@ ALTER TABLE `curriculo`
 -- Restrições para a tabela `curso`
 --
 ALTER TABLE `curso`
-  ADD CONSTRAINT `curso_ibfk_1` FOREIGN KEY (`idrequisito`) REFERENCES `curso` (`idcur`) ON DELETE SET NULL;
+  ADD CONSTRAINT `curso_ibfk_1` FOREIGN KEY (`idrequisito`) REFERENCES `curso` (`id`) ON DELETE SET NULL;
 
 --
 -- Restrições para a tabela `disciplina`
@@ -476,8 +455,8 @@ ALTER TABLE `doacaoalimento`
 -- Restrições para a tabela `doacaoViraCesta`
 --
 ALTER TABLE `doacaoViraCesta`
-  ADD CONSTRAINT `doacaoViraCesta_ibfk_1` FOREIGN KEY (`iddoacao`) REFERENCES `doacaoalimento` (`iddoa`),
-  ADD CONSTRAINT `doacaoViraCesta_ibfk_2` FOREIGN KEY (`idcesta`) REFERENCES `cestabasica` (`idces`);
+  ADD CONSTRAINT `doacaoViraCesta_ibfk_1` FOREIGN KEY (`iddoacao`) REFERENCES `doacaoalimento` (`id`),
+  ADD CONSTRAINT `doacaoViraCesta_ibfk_2` FOREIGN KEY (`idcesta`) REFERENCES `cestabasica` (`id`);
 
 --
 -- Restrições para a tabela `funcionario`
@@ -489,7 +468,7 @@ ALTER TABLE `funcionario`
 -- Restrições para a tabela `listaespera`
 --
 ALTER TABLE `listaespera`
-  ADD CONSTRAINT `listaespera_ibfk_1` FOREIGN KEY (`idTurma`) REFERENCES `turma` (`idtur`);
+  ADD CONSTRAINT `listaespera_ibfk_1` FOREIGN KEY (`idTurma`) REFERENCES `turma` (`id`);
 
 --
 -- Restrições para a tabela `login`
@@ -501,15 +480,15 @@ ALTER TABLE `login`
 -- Restrições para a tabela `matricula`
 --
 ALTER TABLE `matricula`
-  ADD CONSTRAINT `matricula_ibfk_1` FOREIGN KEY (`idTurma`) REFERENCES `turma` (`idtur`),
-  ADD CONSTRAINT `matricula_ibfk_2` FOREIGN KEY (`cpfAluno`) REFERENCES `aluno` (`cpf`);
+  ADD CONSTRAINT `matricula_ibfk_1` FOREIGN KEY (`idTurma`) REFERENCES `turma` (`id`),
+  ADD CONSTRAINT `matricula_ibfk_2` FOREIGN KEY (`idAluno`) REFERENCES `aluno` (`id`);
 
 --
 -- Restrições para a tabela `pagamento`
 --
 ALTER TABLE `pagamento`
-  ADD CONSTRAINT `pagamento_ibfk_1` FOREIGN KEY (`idContrato`) REFERENCES `contrato` (`idc`),
-  ADD CONSTRAINT `pagamento_ibfk_2` FOREIGN KEY (`idPatrocinador`) REFERENCES `patrocinador` (`idPt`);
+  ADD CONSTRAINT `pagamento_ibfk_1` FOREIGN KEY (`idContrato`) REFERENCES `contrato` (`id`),
+  ADD CONSTRAINT `pagamento_ibfk_2` FOREIGN KEY (`idPatrocinador`) REFERENCES `patrocinador` (`id`);
 
 --
 -- Restrições para a tabela `patrocinador`
@@ -521,7 +500,7 @@ ALTER TABLE `patrocinador`
 -- Restrições para a tabela `patrocinadorfisico`
 --
 ALTER TABLE `patrocinadorfisico`
-  ADD CONSTRAINT `patrocinadorfisico_ibfk_1` FOREIGN KEY (`idPatrocinador`) REFERENCES `patrocinador` (`idPt`);
+  ADD CONSTRAINT `patrocinadorfisico_ibfk_1` FOREIGN KEY (`idPatrocinador`) REFERENCES `patrocinador` (`id`);
 
 --
 -- Restrições para a tabela `patrocinadorjuridico`
@@ -534,14 +513,14 @@ ALTER TABLE `patrocinadorjuridico`
 --
 ALTER TABLE `professor`
   ADD CONSTRAINT `professor_ibfk_1` FOREIGN KEY (`idPessoa`) REFERENCES `pessoa` (`id`),
-  ADD CONSTRAINT `professor_ibfk_2` FOREIGN KEY (`cpfFuncionario`) REFERENCES `funcionario` (`cpf`);
+  ADD CONSTRAINT `professor_ibfk_2` FOREIGN KEY (`idFuncionario`) REFERENCES `funcionario` (`id`);
 
 --
 -- Restrições para a tabela `professorAlocadoCurso`
 --
 ALTER TABLE `professorAlocadoCurso`
-  ADD CONSTRAINT `professorAlocadoCurso_ibfk_1` FOREIGN KEY (`idprofessor`) REFERENCES `professor` (`idprof`),
-  ADD CONSTRAINT `professorAlocadoCurso_ibfk_2` FOREIGN KEY (`idcurso`) REFERENCES `curso` (`idcur`);
+  ADD CONSTRAINT `professorAlocadoCurso_ibfk_1` FOREIGN KEY (`idprofessor`) REFERENCES `professor` (`id`),
+  ADD CONSTRAINT `professorAlocadoCurso_ibfk_2` FOREIGN KEY (`idcurso`) REFERENCES `curso` (`id`);
 
 --
 -- Restrições para a tabela `responsavel`
@@ -553,7 +532,7 @@ ALTER TABLE `responsavel`
 -- Restrições para a tabela `turma`
 --
 ALTER TABLE `turma`
-  ADD CONSTRAINT `turma_ibfk_1` FOREIGN KEY (`idProfessor`) REFERENCES `professor` (`idprof`);
+  ADD CONSTRAINT `turma_ibfk_1` FOREIGN KEY (`idProfessor`) REFERENCES `professor` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
